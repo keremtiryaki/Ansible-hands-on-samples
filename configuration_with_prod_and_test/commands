@@ -1,0 +1,5 @@
+cd production
+
+ansible webservers -i inventory_prod -m user -a "name={{username}} password=12345" --sudo
+# this command can not run with the host_vars/web1
+# rm host_vars/web1

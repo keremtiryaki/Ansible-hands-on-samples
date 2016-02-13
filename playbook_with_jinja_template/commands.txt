@@ -1,0 +1,8 @@
+ansible-playbook web_db_playbook.yaml
+
+ansible-playbook web_db_playbook.yaml --limit @/home/vagrant/web_db_playbook.yaml.retry
+
+
+
+include:
+include_vars:

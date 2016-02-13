@@ -1,0 +1,63 @@
+you may require to run 
+sudo apt-get update
+on the web machine
+
+
+to update
+ansible dbservers -i inventory -m apt -a "update_cache=yes" --sudo
+
+to install
+ansible webservers -i inventory -m apt -a "pkg=apache2 state=present" --sudo
+
+to start
+ansible webservers -i inventory -m service -a "name=apache2 enabled=yes state=started" --sudo
+
+http://192.168.33.20/
+
+
+this is a different machine so we may need to update it
+ansible dbservers -i inventory -m apt -a "update_cache=yes" --sudo
+
+to install mysql-server on db machines
+ansible dbservers -i inventory -m apt -a "name=mysql-server state=present" --sudo
+
+to start the mysql server
+ansible dbservers -i inventory -m service -a "name=mysql state=started" --sudo
+
+to stop iptables (only centos)
+
+ansible datacenter -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+or
+ansible webservers:dbservers -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+and
+ansible webservers:&dbservers -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+wildcard
+ansible webs*ers -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+not use
+ansible datacenter:!dbservers -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+regex
+ansible ~web[0-9]+ -i inventory -m service -a "name=iptables state=stopped" --sudo
+
+and we can combine them
+web:&prod:!python3
+
+
+-----
+setup module
+
+to see information(facts) about target machine
+ansible web1 -i inventory -m setup
+
+
+ansible web1 -i inventory -m setup -a "filter=ansible_eth*"
+
+ansible web1 -i inventory -m setup -a "filter=ansible_mounts*"
+
+to save the facts into current file system
+
+ansible all -i inventory -m setup --tree ./setup

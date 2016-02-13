@@ -1,0 +1,11 @@
+ansible 192.168.33.20 -i invertory -u vagrant -m ping -k
+ansible all -i invertory -u vagrant -m ping -k
+ansible all -i invertory -u vagrant -m ping -k -v
+ansible all -i invertory -u vagrant -m command -a "/sbin/reboot"
+ansible all -i invertory -u vagrant -m command -a "/sbin/shutdown -h"
+ansible all -i invertory -u vagrant -m command -a "/usr/sbin/apt-get update -y"
+ansible all -i invertory -u vagrant -m -a "/sbin/reboot"
+
+
+
+

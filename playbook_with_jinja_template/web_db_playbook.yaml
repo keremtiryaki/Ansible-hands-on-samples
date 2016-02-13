@@ -1,0 +1,83 @@
+---
+
+
+- hosts: webservers
+  sudo: yes
+  vars: 
+    http_port: 80 
+    doc_dir: /ansible/ 
+    doc_root: /var/www/html/ansible/ 
+    max_client: 5
+  #gather_facts: False #if you want when you need to make this true(default is True)
+  vars_prompt: 
+    - name: sitename
+      prompt: "What is the site name?"
+  tasks: 
+  - debug: msg=the sitename is {{ sitename }}
+
+  # we do not need to update all time
+  #- name: update apt-get
+  #  apt: update_cache=yes
+  #  when: ansible_distribution == 'Ubuntu'
+
+  - name: Ensure that Apache is installed
+    apt: name=apache2 state=present
+    when: ansible_distribution == 'Ubuntu'
+
+
+  - name: Ensure that apache2 is started and enabled to start on boot
+    service: name=apache2 enabled=yes state=started
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Deploy Configuration File
+    template: src=templates/apache2.conf.j2 dest=/etc/apache2/apache2.conf 
+    notify:
+      - Restart Apache
+
+  - name: Copy site files
+    template: src=templates/index.html.j2 dest={{ doc_root }}/index.html
+  #- command: ls /path/doesnt/exist
+  #  register: result
+  #  ignore_errors: yes
+  #- debug: msg="FAILURE!!!"
+  #  when: result|failed
+
+  handlers: 
+    - name: Restart Apache
+      service: name=apache2 state=restarted
+
+
+
+
+
+
+- hosts: dbservers
+  sudo: yes
+  #gather_facts: False
+  tasks: 
+
+  # we do not need to update all time
+  #- name: update apt-get
+  #  apt: update_cache=yes
+
+  - name: Ensure that mysql-server is installed
+    apt: name=mysql-server state=present
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Ensure that mysql is started and enabled to start on boot
+    service: name=mysql enabled=yes state=started
+    when: ansible_distribution == 'Ubuntu'
+
+  #tasks:
+  #  - template:
+  #  src=templates/httpd.j2 
+  #  dest=/etc/httpd/conf/httpd.conf 
+  #  owner=httpd
+
+#we do not need to do this on ubuntu systems
+#- hosts: webservers:dbservers
+#  sudo: yes
+#  tasks:
+#
+#  - name: STOP IPTABLES NOW!!!!!
+#    service: name=iptables state=stopped
