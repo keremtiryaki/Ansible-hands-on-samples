@@ -1,5 +1,5 @@
 
-===Ansible configuration settings order of operations
+# Ansible configuration settings order of operations
 1 $ANSIBLE_CONFIG 	- Env variable
 2 ./ansible.cfg 	- you can use this configuration files with git
 3 ~/.ansible.cfg 	- home settings you need to set the conf for all team members
@@ -25,8 +25,7 @@ echo $ANSIBLE_HOST_KEY_CHECKING
 
 to be continued!
 
-
-===Ansible Modules
+# Ansible Modules
 Doc command
 
 ```
