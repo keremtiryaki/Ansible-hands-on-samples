@@ -1,0 +1,9 @@
+---
+- name: Install snmpd
+  apt: name=snmpd state=present
+
+- name: Deploy SNMP config
+  template: src=snmpd.conf.j2 dest=/etc/snmp/snmpd.conf
+
+- name: Make sure service snmpd is running
+  service:  name=snmpd state=started

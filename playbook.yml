@@ -1,0 +1,10 @@
+---
+- hosts: nodes
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  roles:
+  - server-common
+
+- include: webserver.yml
+- include: dbserver.yml

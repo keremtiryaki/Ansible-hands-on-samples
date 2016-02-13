@@ -1,0 +1,6 @@
+---
+- name: update apt-get
+  apt: update_cache=yes
+  
+- include: snmp.yml
+#- include: syslog.yml

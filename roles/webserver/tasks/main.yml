@@ -11,5 +11,5 @@
   - Restart Apache
 
 - name: Copy site files
-  template: src=index.html.j2 dest={{ doc_root }}/index.html
+  template: src=index.html.j2 dest={{ doc_root }}/index2.html
 
